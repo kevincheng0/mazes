@@ -1,10 +1,9 @@
 class Grid:
-    WALL = '#'
 
-    def __init__(self, width, height, grid):
+    def __init__(self, width, height):
         self.width = width
         self.height = height 
-        self.grid = grid
+        self.grid = []
         self.path = []
 
     def find_neighbours(self, node):
@@ -12,10 +11,10 @@ class Grid:
         for move in [(1, 0), (1, 1), (0, 1), (-1, 1), (-1, 0), (-1, -1), (0, -1), (1, -1)]:
             new_x = move[0] + node.x 
             new_y = move[1] + node.y
-            if new_x < 0 or new_x >= self.width or new_y < 0 or new_y >= self.height or self.grid[new_y][new_x].value == WALL:
+            if new_x < 0 or new_x >= self.width or new_y < 0 or new_y >= self.height or self.grid[new_y][new_x].value == '#':
                 continue
             else:
-                neighbours.append(Node(new_x, new_y, parent=node))
+                neighbours.append(Node(new_x, new_y, parent=node, g=node.g + abs(move[0]) + abs(move[1])))
         return neighbours
 
     @staticmethod
